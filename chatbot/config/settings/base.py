@@ -46,10 +46,11 @@ LOCALE_PATHS = [str(BASE_DIR / "locale")]
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
+
 DATABASES = {
     "default": env.db(
         "DATABASE_URL",
-        default="postgres:///chatbot",
+        default="postgres://postgres:postgres@localhost:5432/chatbot",
     ),
 }
 DATABASES["default"]["ATOMIC_REQUESTS"] = True

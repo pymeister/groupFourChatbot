@@ -1,3 +1,28 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+
+{% block title %}About Us - General Practice Chatbot{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <h1 class="display-4 text-center">About The Chatbot</h1>
+        <p class="lead text-center">Your trusted source for quick and reliable medical feedback.</p>
+        <hr class="my-4">
+
+        <p>Welcome to the <strong>General Practice Chatbot Application</strong>—a quick and accessible way to receive legitimate medical information based on your symptoms. Our website is designed for people seeking fast, reliable medical feedback, all in a secure and user-friendly environment.</p>
+
+        <p>Our chatbot application is built with a strong foundation in Python using the Django framework, ensuring a robust and dynamic experience. We’ve integrated machine learning technology to interpret user inputs effectively, creating a more tailored response to your questions. On the frontend, we use Bootstrap to provide a clean, interactive interface that’s easy to navigate, regardless of your tech skills.</p>
+
+        <h3 class="mt-4">Features</h3>
+        <ul class="list-unstyled">
+            <li><i class="fas fa-lock"></i> Secure login portal for privacy and session management.</li>
+            <li><i class="fas fa-database"></i> Backend database for storing and managing relevant information.</li>
+            <li><i class="fas fa-brain"></i> Natural language processing (NLP) to understand questions better and provide accurate responses.</li>
+        </ul>
+
+        <p>To maintain our high standards, we’re committed to quality through a structured testing plan that identifies usability and performance improvements.</p>
+    </div>
+</div>
+{% endblock %}
 
 

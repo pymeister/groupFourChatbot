@@ -17,14 +17,11 @@
         content="Lance Meister" />
   <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}" />
   {% block css %}
-    <!-- Latest compiled and minified Bootstrap CSS -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"
           integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="
           crossorigin="anonymous"
           referrerpolicy="no-referrer" />
-<!-- Your stuff: Third-party CSS libraries go here -->
-<!-- This file stores project-specific CSS -->
 
 
 {% compress css %}
@@ -33,11 +30,9 @@
 
 
 {% endblock css %}
-<!-- Le javascript
-    ================================================== -->
+
 {# Placed at the top of the document so pages load faster with defer #}
 {% block javascript %}
-
 
 <!-- Bootstrap JS -->
 <script defer
@@ -45,10 +40,7 @@
         integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="
         crossorigin="anonymous"
         referrerpolicy="no-referrer"></script>
-<!-- Your stuff: Third-party javascript libraries go here -->
-
-
-<!-- place project specific Javascript in this file -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 {% compress js %}
@@ -72,11 +64,11 @@
                 aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="{% url 'home' %}">Chatbot</a>
+        <a class="navbar-brand" href="{% url 'app:chat' %}">Chatbot</a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="{% url 'home' %}">Home <span class="visually-hidden">(current)</span></a>
+              <a class="nav-link" href="{% url 'app:chat' %}">Home <span class="visually-hidden">(current)</span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'about' %}">About</a>
@@ -131,15 +123,6 @@
   {% block modal %}
   {% endblock modal %}
   {% block inline_javascript %}
-    {% comment %}
-    Script tags with only code, no src (defer by default). To run
-    with a "defer" so that you run inline code:
-    <script>
-      window.addEventListener('DOMContentLoaded', () => {
-        /* Run whatever you want */
-      });
-    </script>
-    {% endcomment %}
   {% endblock inline_javascript %}
 </body>
 </html>

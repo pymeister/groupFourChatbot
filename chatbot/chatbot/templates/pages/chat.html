@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Chat with Bot{% endblock %}
+
+{% block content %}
+<h1>Chat with Bot</h1>
+<div id="chat-box">
+    <div id="messages" class="mb-3"></div>
+    <input type="text" id="user-input" class="form-control mb-2" placeholder="Type your message...">
+    <button id="send-button" class="btn btn-primary">Send</button>
+</div>
+{% endblock content %}
+
+{% block inline_javascript %}
+<script>
+    $(document).ready(function() {
+        $('#send-button').click(function() {
+            var message = $('#user-input').val();
+            $('#messages').append('<div><strong>User:</strong> ' + message + '</div>');
+
+            $.post('', { message: message }, function(data) {
+                $('#messages').append('<div><strong>Bot:</strong> ' + data.response + '</div>');
+                $('#user-input').val('');
+            });
+        });
+    });
+</script>
+{% endblock inline_javascript %}
+

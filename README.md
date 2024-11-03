@@ -99,5 +99,3 @@ $ python manage.py migrate
 ### Logging into the Admin Backend
 
 To log into the admin backend, go to `http://localhost:8000/admin` in your browser and enter the username and password you set up when creating a superuser account.
-
-Note: This documentation assumes that you have installed Django, Cookiecutter-Django, and Ruff. If you need help installing these tools, please let me know!

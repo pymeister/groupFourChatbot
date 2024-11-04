@@ -1,0 +1,7 @@
+
+The model in Django represet the classes. They define the structure of the application. Each model corresponds to a
+database table and includes fields (attributes) and methods (functions).
+Relationship lines that connect models indicate one-to-many or many-to-many.
+Like the ForeinKey relationship would be shown with  a line from the child model to the parent model,
+shown with multiplicity(1,*,)
+

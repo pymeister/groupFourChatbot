@@ -6,6 +6,64 @@ License: MIT
 
 ## Basic Commands
 
+## Running the Application
+
+### Opening and Closing the Python Environment
+
+To open the Python environment:
+
+```bash
+source env/bin/activate  # for Linux/Mac
+```
+
+To close the Python environment:
+
+```bash
+deactivate
+```
+
+### Installing all Python Requirements
+
+Once the Python environment is open run:
+```bash
+pip install -r requirements/local.txt
+
+```
+This install Django and all the required files need to run the program.
+
+### Running Basic Commands
+
+#### Running the Server
+
+Run the server with:
+
+```bash
+$ python manage.py runserver
+```
+
+Open your browser at `http://localhost:8000` to access the chatbot.
+
+#### Running Static Files
+
+Run static files with:
+
+```bash
+$ python manage.py collectstatic
+```
+
+#### Creating Migrations
+
+Create migrations with:
+
+```bash
+$ python manage.py makemigrations
+```
+
+Apply migrations with:
+
+```bash
+$ python manage.py migrate
+```
 ### Setting Up Your Users
 
 #### Creating a Normal User Account
@@ -44,56 +102,6 @@ $ coverage run -m pytest
 $ coverage html
 # Open HTML coverage report
 $ open htmlcov/index.html
-```
-
-## Running the Application
-
-### Opening and Closing the Python Environment
-
-To open the Python environment:
-
-```bash
-source env/bin/activate  # for Linux/Mac
-```
-
-To close the Python environment:
-
-```bash
-deactivate
-```
-
-### Running Basic Commands
-
-#### Running the Server
-
-Run the server with:
-
-```bash
-$ python manage.py runserver
-```
-
-Open your browser at `http://localhost:8000` to access the chatbot.
-
-#### Running Static Files
-
-Run static files with:
-
-```bash
-$ python manage.py collectstatic
-```
-
-#### Creating Migrations
-
-Create migrations with:
-
-```bash
-$ python manage.py makemigrations
-```
-
-Apply migrations with:
-
-```bash
-$ python manage.py migrate
 ```
 
 ### Logging into the Admin Backend

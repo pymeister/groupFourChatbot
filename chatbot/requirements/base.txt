@@ -82,7 +82,6 @@ pure_eval==0.2.3
 pycparser==2.22
 pydot==3.0.2
 Pygments==2.18.0
-pygraphviz==1.14
 pyparsing==3.2.0
 pytest==8.3.3
 pytest-django==4.9.0

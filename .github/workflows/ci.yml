@@ -34,7 +34,7 @@ jobs:
         run: python -m pip install pre-commit
 
       - name: Run pre-commit
-        run: pre-commit run --all-files --exclude env/lib/
+        run: pre-commit run --all-files
 
   pytest:
     runs-on: ubuntu-latest

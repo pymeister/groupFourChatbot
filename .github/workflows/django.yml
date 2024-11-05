@@ -12,7 +12,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.12.7]
+        python-version: [3.10.0, 3.11.0, 3.12.7]
 
     steps:
     - uses: actions/checkout@v4
@@ -22,7 +22,13 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    # Cache dependencies
+    # Install system dependencies for psycopg-c
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc libpq-dev
+
+    # Cache pip dependencies
     - name: Cache pip dependencies
       uses: actions/cache@v3
       with:

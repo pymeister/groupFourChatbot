@@ -10,13 +10,13 @@ License: MIT
 
 ### Opening and Closing the Python Environment
 
-To open the Python environment:
+The main directory has env folder. In this directory open the Python environment (from main directory):
 
 ```bash
 source env/bin/activate  # for Linux/Mac
 ```
 
-To close the Python environment:
+To close the Python environment (from any directory):
 
 ```bash
 deactivate
@@ -24,7 +24,7 @@ deactivate
 
 ### Installing all Python Requirements
 
-Once the Python environment is open run:
+Once the Python environment is open navigate to the chatbot directory and run:
 ```bash
 pip install -r requirements/local.txt
 

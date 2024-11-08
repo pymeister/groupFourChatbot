@@ -6,60 +6,65 @@
   Chat with Bot
 {% endblock title %}
 {% block content %}
-  <h1>Chat with Bot</h1>
-  <div id="chat-box">
-    <form id="chat-form" method="post">
-      {% csrf_token %}
-      <div id="messages" class="mb-3">
-        {% for message in messages %}
-          <div>
-            <strong>User:</strong> {{ message.user_message }}
-          </div>
-          <div>
-            <strong>Bot:</strong> {{ message.bot_response }}
-          </div>
-        {% endfor %}
-      </div>
-      <input type="text"
-             id="user-input"
-             name="message"
-             class="form-control mb-2"
-             placeholder="Type your message..."
-             required />
-      <button type="button" id="send-button" class="btn btn-primary">Send</button>
-    </form>
-  </div>
+  {% if user.is_authenticated %}
+    <h1>Chat with Bot</h1>
+    <div id="chat-box">
+      <form id="chat-form" method="post">
+        {% csrf_token %}
+        <div id="messages" class="mb-3">
+          {% for message in messages %}
+            <div>
+              <strong>User:</strong> {{ message.user_message }}
+            </div>
+            <div>
+              <strong>Bot:</strong> {{ message.bot_response }}
+            </div>
+          {% endfor %}
+        </div>
+        <input type="text"
+               id="user-input"
+               name="message"
+               class="form-control mb-2"
+               placeholder="Type your message..."
+               required />
+        <button type="button" id="send-button" class="btn btn-primary">Send</button>
+      </form>
+    </div>
+  {% else %}
+    <p>
+      You need to be signed in to chat with the bot. <a href="{% url 'account_login' %}">Log in here</a>.
+    </p>
+  {% endif %}
 {% endblock content %}
 {% block inline_javascript %}
-  <script>
-    $(document).ready(function() {
-      $('#send-button').click(function() {
-        var message = $('#user-input').val();
+  {% if user.is_authenticated %}
+    <script>
+      $(document).ready(function() {
+        $('#send-button').click(function() {
+          var message = $('#user-input').val();
 
-        // Check if the message is not empty
-        if (message.trim() === '') {
-          return; // Do nothing if message is empty
-        }
+          if (message.trim() === '') {
+            return;
+          }
 
-        // Append the user message to the chat
-        $('#messages').append('<div><strong>User:</strong> ' + message + '</div>');
+          $('#messages').append('<div><strong>User:</strong> ' + message + '</div>');
 
-        // Make an AJAX POST request to submit the message
-        $.post("{% url 'app:chat' %}", {
-          message: message,
-          csrfmiddlewaretoken: '{{ csrf_token }}' // Include CSRF token
-        }, function(data) {
-          $('#messages').append('<div><strong>Bot:</strong> ' + data.response + '</div>');
-          $('#user-input').val(''); // Clear the input field
-        }).fail(function() {
-          $('#messages').append('<div><strong>Bot:</strong> Error processing your request.</div>');
+          $.post("{% url 'app:chat' %}", {
+            message: message,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+          }, function(data) {
+            $('#messages').append('<div><strong>Bot:</strong> ' + data.response + '</div>');
+            $('#user-input').val('');
+          }).fail(function() {
+            $('#messages').append('<div><strong>Bot:</strong> Error processing your request.</div>');
+          });
+        });
+
+        $('#chat-form').on('submit', function(event) {
+          event.preventDefault();
+          $('#send-button').click();
         });
       });
-
-      $('#chat-form').on('submit', function(event) {
-        event.preventDefault(); // Prevent the default form submission
-        $('#send-button').click(); // Trigger the click event on the button
-      });
-    });
-  </script>
+    </script>
+  {% endif %}
 {% endblock inline_javascript %}

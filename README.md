@@ -8,12 +8,49 @@ License: MIT
 
 ## Running the Application
 
+### Install Postgresql
+
+```bash
+brew install postgresql@15 # for Mac
+
+```
+```bash
+apt install postgresql # for Linux
+
+```
+```bash
+sudo pacman -S postgresql # for Arch Linux
+
+```
+[PostgreSQL Download](https://www.postgresql.org/download/) # for Others
+
+### Create Database Chatbot
+
+Open postgresql command line  tool
+```bash
+psql -U postgres
+```
+Create database
+```bash
+postgres=# CREATE DATABASE chatbot;
+```
+Connect database
+```bash
+postgres=# \c chatbot
+```
+Exit postgresql command line tool
+```bash
+postgres=# \q
+```
 ### Opening and Closing the Python Environment
 
 To open the Python Environment:
 
 ```bash
 source env/bin/activate  # for Linux/Mac
+```
+```bash
+source .\venv\Script\activate  # for Windows
 ```
 
 To close the Python Environment:

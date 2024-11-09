@@ -23,3 +23,9 @@ def chat_message(db) -> ChatMessage:  # Renamed from app to chat_message for cla
     return (
         ChatMessageFactory()
     )  # Make sure ChatMessageFactory is defined and correctly implemented
+
+
+@pytest.fixture(autouse=True)
+def _mock_api_key(monkeypatch):
+    """Mock the API_KEY environment variable for tests."""
+    monkeypatch.setenv("API_KEY", "your-mock-api-key")

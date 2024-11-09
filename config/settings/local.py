@@ -1,5 +1,4 @@
 # ruff: noqa: E501
-import os
 
 from dotenv import load_dotenv
 
@@ -73,4 +72,4 @@ INTERNAL_IPS = ["127.0.0.1", "10.0.2.2"]
 INSTALLED_APPS += ["django_extensions"]
 
 # ------------------------------------------------------------------------------
-API_KEY = os.getenv("API_KEY", default="GOOGLE_GEMINI_API_KEY")
+API_KEY = env("API_KEY", default=None)

@@ -49,7 +49,7 @@ jobs:
 
     env:
       DATABASE_URL: 'postgres://postgres:postgres@localhost:5432/postgres'
-
+      API_KEY: ${{ secrets.API_KEY }}  # Add API_KEY here from GitHub secrets
     steps:
       - name: Checkout Code Repository
         uses: actions/checkout@v4

@@ -1,8 +1,15 @@
 # ruff: noqa: E501
+import os
+
+from dotenv import load_dotenv
+
 from .base import *  # noqa: F403
 from .base import INSTALLED_APPS
 from .base import MIDDLEWARE
 from .base import env
+
+# Load envionment variables from .env file
+load_dotenv()
 
 # GENERAL
 # ------------------------------------------------------------------------------
@@ -66,4 +73,4 @@ INTERNAL_IPS = ["127.0.0.1", "10.0.2.2"]
 INSTALLED_APPS += ["django_extensions"]
 
 # ------------------------------------------------------------------------------
-API_KEY = env("API_KEY")
+API_KEY = os.getenv("API_KEY")

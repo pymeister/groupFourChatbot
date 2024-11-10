@@ -115,7 +115,6 @@ To create a superuser account, run this command:
 $ python manage.py createsuperuser
 ```
 
-For convenience, you can keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
 
 ### Type Checks
 

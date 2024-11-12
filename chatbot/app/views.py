@@ -93,8 +93,7 @@ class ChatView(View):
         except RequestException:
             # Handle potential API errors
             # (e.g., network issues, service downtime)
-            return "There was an error processing your message. \
-                Please try again later."
+            return "There was an error processing your message. Please try again later."
         else:
             # Return the bot's response text
             return response.text

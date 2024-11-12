@@ -8,10 +8,9 @@ from requests.exceptions import RequestException
 from chatbot.app.models import ChatMessage
 
 # Define the URL for the view
-# Replace with the actual name of your URL pattern
-CHAT_URL = reverse("app:chat")
-# Define a constant for HTTP status codes at the top of the file
+CHAT_URL = reverse("app:chat")  # Replace with the actual name of your URL pattern
 
+# Define a constant for HTTP status codes at the top of the file
 HTTP_OK = 200
 
 
@@ -24,7 +23,7 @@ def test_chatview_get(client):
 
 
 @pytest.mark.django_db
-def test_chatview_post(client, chat_message):
+def test_chatview_post(client):
     # Test the POST method to ensure chat message is created and bot responds
 
     # Mock the API call to the generative model
@@ -58,8 +57,8 @@ def test_chatview_post_error_handling(client):
         assert response.status_code == HTTP_OK
         assert (
             response.json().get("response")
-            == "There was an error processing your message.\
-            Please try again later."
+            == "There was an error processing your message. "
+            "Please try again later."
         )
 
 
@@ -98,5 +97,6 @@ def test_robot_response_error_handling(client):
         assert response.status_code == HTTP_OK
         assert (
             response.json().get("response")
-            == "There was an error processing your message. Please try again later."
+            == "There was an error processing your message. "
+            "Please try again later."
         )

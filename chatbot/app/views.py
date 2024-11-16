@@ -48,8 +48,10 @@ class ChatView(View):
         Returns:
             HttpResponse: The rendered HTML page with the chat interface.
         """
+        # Retrieve all chat messages from the database
+        messages = ChatMessage.objects.all()
         # This renders the chat interface
-        return render(request, "pages/chat.html")
+        return render(request, "pages/chat.html", {"messages": messages})
 
     def post(self, request):
         """

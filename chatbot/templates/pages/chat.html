@@ -14,10 +14,10 @@
         <div id="messages" class="mb-3">
           {% for message in messages %}
             <div>
-              <strong>User:</strong> {{ message.user_message }}
+              <strong>User:</strong> {{ message.user_message|linebreaks }}
             </div>
             <div>
-              <strong>Bot:</strong> {{ message.bot_response }}
+              <strong>Bot:</strong> {{ message.bot_response|linebreaks }}
             </div>
           {% endfor %}
         </div>
@@ -47,19 +47,26 @@
             return;
           }
 
+          // Append user's message
           $('#messages').append('<div><strong>User:</strong> ' + message + '</div>');
 
+          // Send the message via POST request
           $.post("{% url 'app:chat' %}", {
             message: message,
             csrfmiddlewaretoken: '{{ csrf_token }}'
           }, function(data) {
-            $('#messages').append('<div><strong>Bot:</strong> ' + data.response + '</div>');
-            $('#user-input').val('');
+            // Replace newlines in bot's response with <br /> tags
+            var botResponse = data.response.replace(/\n/g, '<br />');
+
+            // Append bot's response with line breaks
+            $('#messages').append('<div><strong>Bot:</strong> ' + botResponse + '</div>');
+            $('#user-input').val(''); // Clear input field
           }).fail(function() {
             $('#messages').append('<div><strong>Bot:</strong> Error processing your request.</div>');
           });
         });
 
+        // Handle form submission
         $('#chat-form').on('submit', function(event) {
           event.preventDefault();
           $('#send-button').click();

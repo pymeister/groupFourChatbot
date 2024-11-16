@@ -2,7 +2,9 @@ import google.generativeai as ai
 from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views import View
+from django.views.generic.edit import DeleteView
 from requests.exceptions import RequestException
 
 from .models import ChatMessage
@@ -21,51 +23,24 @@ chat = model.start_chat()
 class ChatView(View):
     """
     ChatView handles HTTP GET and POST requests for the chat functionality.
-
-    - GET request: Renders the chat interface (HTML page).
-    - POST request: Handles user messages, sends them to the Generative AI
-    model, saves the conversation to the database,
-    and returns the bot's response.
-
-    Methods:
-        get: Renders the chat interface.
-        post: Handles user input, gets the bot's response, saves the message,
-        and returns the response in JSON format.
-        get_bot_response: Sends the user message to the AI model
-        and returns the response.
     """
 
     def get(self, request):
         """
         Handles GET requests.
-
-        Renders the chat interface (HTML page) for the user to interact
-        with the chatbot.
-
-        Args:
-            request (HttpRequest): The incoming GET request.
-
-        Returns:
-            HttpResponse: The rendered HTML page with the chat interface.
+        Renders the chat interface (HTML page) and displays chat history.
         """
         # Retrieve all chat messages from the database
         messages = ChatMessage.objects.all()
-        # This renders the chat interface
+
+        # Render the chat interface and pass the messages to the template
         return render(request, "pages/chat.html", {"messages": messages})
 
     def post(self, request):
         """
         Handles POST requests.
-
         Receives a message from the user, sends it to the bot,
         and stores the conversation in the database.
-
-        Args:
-            request (HttpRequest): The incoming POST request
-            containing the user message.
-
-        Returns:
-            JsonResponse: The response from the bot returned as JSON.
         """
         # Get the user's message from the POST request
         user_message = request.POST.get("message")
@@ -82,20 +57,22 @@ class ChatView(View):
     def get_bot_response(self, message):
         """
         Sends a message to the Generative AI model and gets the bot's response.
-
-        Args:
-            message (str): The user's message to be sent to the bot.
-
-        Returns:
-            str: The bot's response text.
         """
         try:
             # Send the user's message to the bot and get the response
             response = chat.send_message(message)
         except RequestException:
-            # Handle potential API errors
-            # (e.g., network issues, service downtime)
+            # Handle potential API errors (e.g., network issues, service downtime)
             return "There was an error processing your message. Please try again later."
         else:
-            # Return the bot's response text
             return response.text
+
+
+class ChatMessageDeleteView(DeleteView):
+    """
+    View for deleting a chat message.
+    """
+
+    model = ChatMessage
+    template_name = "pages/delete_chat_message.html"
+    success_url = reverse_lazy("app:chat")  # Redirect back to chat page after deletion

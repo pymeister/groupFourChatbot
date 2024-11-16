@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Delete Chat Message
+{% endblock title %}
+{% block css %}
+  {{ block.super }}
+{% endblock css %}
+{% block bodyclass %}
+  delete-chat-message
+{% endblock bodyclass %}
+{% block content %}
+  <h2>Delete Chat Message</h2>
+  <p>Are you sure you want to delete the following message?</p>
+  <div class="alert alert-info">
+    <strong>User:</strong> {{ object.user_message }}
+  </br />
+  <strong>Bot:</strong> {{ object.bot_response }}
+</div>
+<form action="{% url 'app:delete_message' object.pk %}" method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">Yes, Delete</button>
+</form>
+<a href="{% url 'app:chat' %}" class="btn btn-secondary mt-3">Cancel</a>
+{% endblock content %}

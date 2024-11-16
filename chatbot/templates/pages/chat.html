@@ -8,38 +8,98 @@
 {% block content %}
   {% if user.is_authenticated %}
     <h1>Chat with Bot</h1>
-    <div id="chat-box">
-      <form id="chat-form" method="post">
-        {% csrf_token %}
-        <div id="messages" class="mb-3">
-          {% for message in messages %}
-            <div>
-              <strong>User:</strong> {{ message.user_message|linebreaks }}
+    <div class="container">
+      <div class="row">
+        <!-- Chat Input and Send Button on the left -->
+        <div class="col-md-12 col-lg-6">
+          <div id="chat-box">
+            <div id="messages"></div>
+            <!-- Current chat history will appear here -->
+          </div>
+          <!-- Chat form -->
+          <form id="chat-form" method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+              <input type="text"
+                     id="user-input"
+                     name="message"
+                     class="form-control"
+                     placeholder="Type your message..."
+                     required />
             </div>
-            <div>
-              <strong>Bot:</strong> {{ message.bot_response|linebreaks }}
-            </div>
-          {% endfor %}
+            <button type="button" id="send-button" class="btn btn-primary">Send</button>
+          </form>
         </div>
-        <input type="text"
-               id="user-input"
-               name="message"
-               class="form-control mb-2"
-               placeholder="Type your message..."
-               required />
-        <button type="button" id="send-button" class="btn btn-primary">Send</button>
-      </form>
+        <!-- Button to trigger offcanvas (Chat History) -->
+        <div class="col-md-6">
+          <button class="btn btn-info"
+                  data-bs-toggle="offcanvas"
+                  href="#history-offcanvas"
+                  role="button"
+                  aria-controls="history-offcanvas">Show Chat History</button>
+        </div>
+      </div>
+    </div>
+    <!-- Offcanvas for Chat History -->
+    <div class="offcanvas offcanvas-end"
+         tabindex="-1"
+         id="history-offcanvas"
+         aria-labelledby="history-offcanvasLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="history-offcanvasLabel">Chat History</h5>
+        <button type="button"
+                class="btn-close text-reset"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>User Message</th>
+              <th>Bot Response</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="history-messages">
+            {% for message in messages %}
+              <tr data-message-id="{{ message.id }}">
+                <td>{{ forloop.counter }}</td>
+                <!-- Truncate long messages -->
+                <td>{{ message.user_message|truncatechars:50 }}</td>
+                <td>{{ message.bot_response|truncatechars:50 }}</td>
+                <td>
+                  <!-- Delete button links directly to the delete view -->
+                  <a href="{% url 'app:delete_message' message.pk %}"
+                     class="btn btn-sm btn-danger">Delete</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
   {% else %}
     <p>
-      You need to be signed in to chat with the bot. <a href="{% url 'account_login' %}">Log in here</a>.
+      You need to be signed in to chat with the bot.
+      <a href="{% url 'account_login' %}">Log in here</a>.
     </p>
   {% endif %}
 {% endblock content %}
 {% block inline_javascript %}
   {% if user.is_authenticated %}
-    <script>
+    <script type="text/javascript">
       $(document).ready(function() {
+        // Function to move old messages to the history panel
+        function moveToHistory() {
+          // Move the current messages to history
+          $('#history-messages').append($('#messages').html());
+
+          // Clear the current messages container
+          $('#messages').empty();
+        }
+
         $('#send-button').click(function() {
           var message = $('#user-input').val();
 
@@ -47,7 +107,10 @@
             return;
           }
 
-          // Append user's message
+          // Move older messages to history
+          moveToHistory();
+
+          // Append user's message to current chat box
           $('#messages').append('<div><strong>User:</strong> ' + message + '</div>');
 
           // Send the message via POST request
@@ -58,7 +121,7 @@
             // Replace newlines in bot's response with <br /> tags
             var botResponse = data.response.replace(/\n/g, '<br />');
 
-            // Append bot's response with line breaks
+            // Append bot's response to current chat box
             $('#messages').append('<div><strong>Bot:</strong> ' + botResponse + '</div>');
             $('#user-input').val(''); // Clear input field
           }).fail(function() {

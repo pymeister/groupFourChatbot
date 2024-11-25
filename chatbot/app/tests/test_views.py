@@ -31,28 +31,21 @@ def test_chatview_post(client):
         mock_send_message.return_value.text = "Hello, user!"
 
         # Send a POST request with a message
-        response = client.post(
-            CHAT_URL,
-            {"message": "Hi there!"},
-        )
+        response = client.post(CHAT_URL, {"message": "Hi there!"})
 
         # Ensure the response is a JsonResponse and contains the bot's response
         assert isinstance(response, JsonResponse)
         assert response.status_code == HTTP_OK
         assert (
-            response.json().get(
-                "response",
-            )
-            == """ I am not designed to answer that. Can you please
-            ask a medical-related question?"""
+            response.json().get("response")
+            == "I am not designed to answer that. Can you please ask a medical-related question?"
         )
 
         # Ensure the chat message is saved to the database
         chat_message = ChatMessage.objects.last()
         assert chat_message.user_message == "Hi there!"
         assert chat_message.bot_response == (
-            """I am not designed to answer that. Can you please ask a medical-related
-            question?"""
+            "I am not designed to answer that. Can you please ask a medical-related question?"
         )
 
 
@@ -105,16 +98,14 @@ def test_chatview_post_with_no_medical_terms(client):
         assert response.status_code == HTTP_OK
         assert (
             response.json().get("response")
-            == """I am not designed to answer that. Can you please ask a medical-related
-        question?"""
+            == "I am not designed to answer that. Can you please ask a medical-related question?"
         )
 
         # Ensure the chat message is saved to the database
         chat_message = ChatMessage.objects.last()
         assert chat_message.user_message == "How are you?"
         assert chat_message.bot_response == (
-            """I am not designed to answer that. Can you please ask a medical-related
-            question?"""
+            "I am not designed to answer that. Can you please ask a medical-related question?"
         )
 
 
@@ -168,6 +159,8 @@ def test_message_saved_in_db_with_no_medical_terms(client):
     Test that the user's message and bot's response are saved in the database
     when no medical terms are found.
     """
+    # Send a message with no medical-related terms
+    client.post(CHAT_URL, data={"message": "Hello!"})
 
     # Check that the message and bot response are stored in the database
     assert ChatMessage.objects.count() == 1  # Ensure one message is saved
@@ -175,8 +168,7 @@ def test_message_saved_in_db_with_no_medical_terms(client):
     chat_message = ChatMessage.objects.first()
     assert chat_message.user_message == "Hello!"
     assert chat_message.bot_response == (
-        """I am not designed to answer that. Can you please ask a medical-related
-      question?"""
+        "I am not designed to answer that. Can you please ask a medical-related question?"
     )
 
 
@@ -185,6 +177,9 @@ def test_message_saved_in_db_with_bye_message(client):
     """
     Test that the 'bye' message and bot's response are saved in the database.
     """
+    # Send the 'bye' message
+    client.post(CHAT_URL, data={"message": "bye"})
+
     # Check that the message and bot response are stored in the database
     assert ChatMessage.objects.count() == 1  # Ensure one message is saved
 

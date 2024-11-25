@@ -40,8 +40,8 @@ class ChatView(View):
     def post(self, request):
         """
         Handles POST requests.
-        Receives a message from the user, sends it to the bot if
-        medical-related terms are found, and stores the conversation in the database.
+        Receives a message from the user, sends it to the bot if medical-related terms are found,
+        and stores the conversation in the database.
         """
         # Get the user's message from the POST request
         user_message = request.POST.get("message")
@@ -56,8 +56,7 @@ class ChatView(View):
             bot_response = "Goodbye!"
         else:
             # If no relevant words are found, prompt for a medical-related question
-            bot_response = """I am not designed to answer that. Can you please ask a
-            medical-related question?"""
+            bot_response = "I am not designed to answer that. Can you please ask a medical-related question?"
 
         # Save the user's message and bot's response to the database
         ChatMessage.objects.create(user_message=user_message, bot_response=bot_response)

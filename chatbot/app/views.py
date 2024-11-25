@@ -18,7 +18,7 @@ ai.configure(api_key=API_KEY)
 model = ai.GenerativeModel("gemini-pro")
 chat = model.start_chat()
 
-search_words = {'sore', 'cough', 'fever', 'headache', 'pain', 'injury', 'illness', 'symptoms',
+search_words = {'sore', 'cough', 'fever', 'headache', 'pain', 'injury', 'itchy', 'illness', 'symptoms',
                 'treatment', 'doctor', 'hospital', 'medicine', 'prescription', 'diagnosis', 'health',
                 'medical', 'appointment', 'consultation', 'emergency', 'clinic', 'pharmacy', 'vaccine',
                 'virus', 'bacteria', 'infection', 'disease', 'surgery', 'therapy', 'recovery', 'mental',

@@ -7,6 +7,7 @@ from django.views import View
 from django.views.generic.edit import DeleteView
 from requests.exceptions import RequestException
 
+from .medical_words import search_words
 from .models import ChatMessage
 
 # API Key for authenticating with the Generative AI service
@@ -39,14 +40,23 @@ class ChatView(View):
     def post(self, request):
         """
         Handles POST requests.
-        Receives a message from the user, sends it to the bot,
+        Receives a message from the user, sends it to the bot if medical-related terms are found,
         and stores the conversation in the database.
         """
         # Get the user's message from the POST request
         user_message = request.POST.get("message")
 
-        # Get the response from the bot using the user's message
-        bot_response = self.get_bot_response(user_message)
+        # Search for medical-related words in the user's message
+        found_words = [word for word in search_words if word in user_message]
+
+        if found_words:
+            bot_response = self.get_bot_response(user_message)
+        # If the message is 'bye', respond accordingly
+        elif user_message.lower() == "bye":
+            bot_response = "Goodbye!"
+        else:
+            # If no relevant words are found, prompt for a medical-related question
+            bot_response = "I am not designed to answer that. Can you please ask a medical-related question?"
 
         # Save the user's message and bot's response to the database
         ChatMessage.objects.create(user_message=user_message, bot_response=bot_response)
